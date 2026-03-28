@@ -118,14 +118,14 @@ export default function App() {
     const uy = 150 - Math.sin(userRad) * 135;
 
     return (
-      <svg ref={svgRef} viewBox="0 0 300 180" className="w-full h-auto max-w-md drop-shadow-sm select-none touch-none">
+      <svg ref={svgRef} viewBox="0 0 300 180" style={{ width: '100%', height: 'auto', display: 'block' }} className="select-none touch-none">
         <path d="M 20 150 A 130 130 0 0 1 280 150 L 150 150 Z" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="1" />
         <line x1="20" y1="150" x2="280" y2="150" stroke="#1e293b" strokeWidth="2" />
         {ticks}
         <circle cx="150" cy="150" r="4" fill="#1e293b" />
         <line x1="150" y1="150" x2={ux} y2={uy} stroke="#ef4444" strokeWidth="4" strokeLinecap="round" />
         <circle 
-          cx={ux} cy={uy} r="18" fill="#ef4444" fillOpacity="0.2" className="cursor-grab active:cursor-grabbing"
+          cx={ux} cy={uy} r="18" fill="#ef4444" fillOpacity="0.2" style={{ cursor: 'grab' }}
           onMouseDown={() => !submitted && setIsDragging(true)}
           onTouchStart={() => !submitted && setIsDragging(true)}
         />
@@ -136,84 +136,60 @@ export default function App() {
 
   if (currentQuestion > totalQuestions) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
-        <div className="bg-white rounded-3xl shadow-2xl p-10 max-w-lg w-full text-center border border-slate-100">
-          <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl font-bold">🏆</div>
-          <h1 className="text-4xl font-black text-slate-900 mb-2">Quiz Finished</h1>
-          <p className="text-slate-500 mb-8">You completed the angle challenge with high precision.</p>
-          <div className="bg-slate-50 rounded-2xl p-6 mb-8">
-            <span className="block text-slate-400 uppercase tracking-widest text-xs font-bold mb-1">Final Score</span>
-            <span className="text-5xl font-black text-slate-900">{score} <span className="text-2xl text-slate-300">/ {totalQuestions}</span></span>
-          </div>
-          <button onClick={() => window.location.reload()} className="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-black transition-all shadow-lg hover:shadow-xl active:scale-95">Restart Session</button>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8fafc', padding: '24px' }}>
+        <div style={{ backgroundColor: 'white', borderRadius: '24px', padding: '40px', maxWidth: '448px', width: '100%', textAlign: 'center', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
+          <h1 style={{ fontSize: '36px', fontWeight: '900', color: '#0f172a', marginBottom: '8px' }}>Quiz Finished</h1>
+          <p style={{ color: '#64748b', marginBottom: '32px' }}>Final Score: {score} / {totalQuestions}</p>
+          <button onClick={() => window.location.reload()} style={{ width: '100%', backgroundColor: '#0f172a', color: 'white', padding: '16px', borderRadius: '16px', fontWeight: 'bold', border: 'none', cursor: 'pointer' }}>Restart Session</button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col items-center py-12 px-6 font-sans antialiased text-slate-900">
-      <div className="max-w-2xl w-full">
-        <div className="mb-8 flex flex-col gap-4">
-          <div className="flex justify-between items-end">
-            <div className="bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200 inline-flex flex-col">
-              <span className="text-[10px] font-black uppercase tracking-tighter text-slate-400 leading-none">Accuracy</span>
-              <span className="text-xl font-black text-slate-800 leading-none mt-1">{Math.round((score/currentQuestion)*100)}%</span>
+    <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px', fontFamily: 'sans-serif' }}>
+      <div style={{ maxWidth: '600px', width: '100%' }}>
+        <div style={{ marginBottom: '32px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
+            <div style={{ backgroundColor: 'white', padding: '8px 16px', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
+              <span style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 'bold', display: 'block' }}>ACCURACY</span>
+              <span style={{ fontSize: '20px', fontWeight: '900' }}>{Math.round((score/currentQuestion)*100)}%</span>
             </div>
-            <div className="text-right">
-              <span className="text-slate-400 font-bold text-sm tracking-tight italic">Problem {currentQuestion} of {totalQuestions}</span>
-            </div>
+            <span style={{ color: '#94a3b8', fontWeight: 'bold' }}>Problem {currentQuestion} of {totalQuestions}</span>
           </div>
-          <div className="h-3 w-full bg-slate-200 rounded-full overflow-hidden shadow-inner">
-            <div className="h-full bg-blue-500 transition-all duration-500 ease-out shadow-[0_0_10px_rgba(59,130,246,0.5)]" style={{ width: `${progress}%` }} />
+          <div style={{ height: '12px', backgroundColor: '#e2e8f0', borderRadius: '999px', overflow: 'hidden' }}>
+            <div style={{ height: '100%', backgroundColor: '#3b82f6', width: `${progress}%`, transition: 'width 0.5s' }} />
           </div>
         </div>
 
-        <div className="bg-white rounded-[2.5rem] shadow-xl p-8 border border-slate-100 mb-6 transition-all">
-          <div className="text-center mb-10">
-            <h2 className="text-slate-400 font-bold uppercase tracking-[0.2em] text-xs mb-3">Objective</h2>
-            <p className="text-4xl font-black text-slate-900 leading-tight">Construct an angle of <span className="text-blue-600 underline decoration-blue-200 underline-offset-8 italic">{targetAngle}°</span></p>
+        <div style={{ backgroundColor: 'white', borderRadius: '40px', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)', padding: '32px', border: '1px solid #f1f5f9' }}>
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <h2 style={{ fontSize: '12px', color: '#94a3b8', letterSpacing: '2.4px', marginBottom: '12px' }}>OBJECTIVE</h2>
+            <p style={{ fontSize: '32px', fontWeight: '900', color: '#0f172a' }}>Construct an angle of <span style={{ color: '#3b82f6', textDecoration: 'underline' }}>{targetAngle}°</span></p>
           </div>
 
-          <div className="flex justify-center mb-10 relative px-4">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-50 opacity-20 pointer-events-none" />
-            {renderProtractor()}
-            <div className="absolute bottom-[-10px] bg-slate-900 text-white px-4 py-1.5 rounded-full text-xs font-black shadow-lg">
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px', position: 'relative' }}>
+            <div style={{ width: '100%', maxWidth: '400px' }}>
+              {renderProtractor()}
+            </div>
+            <div style={{ position: 'absolute', bottom: '-20px', backgroundColor: '#0f172a', color: 'white', padding: '6px 16px', borderRadius: '999px', fontSize: '12px', fontWeight: '900' }}>
               {userAngle}° Selected
             </div>
           </div>
 
           {message && (
-            <div className={`mb-6 p-5 rounded-3xl border-2 animate-in fade-in slide-in-from-bottom-4 duration-300 ${message.success ? 'bg-emerald-50 border-emerald-100' : 'bg-rose-50 border-rose-100'}`}>
-              <div className="flex items-center gap-4">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-xl shadow-sm ${message.success ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white'}`}>
-                  {message.success ? '✓' : '!'}
-                </div>
-                <div>
-                  <p className={`font-black text-lg leading-none mb-1 ${message.success ? 'text-emerald-900' : 'text-rose-900'}`}>{message.text}</p>
-                  <p className={`text-sm font-medium opacity-70 ${message.success ? 'text-emerald-800' : 'text-rose-800'}`}>{message.detail}</p>
-                </div>
-              </div>
+            <div style={{ marginBottom: '24px', padding: '20px', borderRadius: '24px', border: '2px solid', backgroundColor: message.success ? '#ecfdf5' : '#fef2f2', borderColor: message.success ? '#d1fae5' : '#fee2e2' }}>
+              <p style={{ fontWeight: '900', color: message.success ? '#064e3b' : '#7f1d1d' }}>{message.text}</p>
+              <p style={{ fontSize: '14px', color: message.success ? '#065f46' : '#991b1b' }}>{message.detail}</p>
             </div>
           )}
 
           {!submitted ? (
-            <button 
-              onClick={handleSubmit}
-              className="group w-full bg-slate-900 text-white py-5 rounded-[1.5rem] font-black text-xl hover:bg-black transition-all shadow-[0_15px_30px_-10px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.4)] active:scale-95 active:shadow-none"
-            >
-              Verify Angle
-            </button>
+            <button onClick={handleSubmit} style={{ width: '100%', backgroundColor: '#0f172a', color: 'white', padding: '20px', borderRadius: '24px', fontWeight: '900', fontSize: '20px', border: 'none', cursor: 'pointer', transition: 'transform 0.1s' }}>Verify Angle</button>
           ) : (
-            <button 
-              onClick={handleNext}
-              className="w-full bg-blue-600 text-white py-5 rounded-[1.5rem] font-black text-xl hover:bg-blue-700 transition-all shadow-[0_15px_30px_-10px_rgba(59,130,246,0.3)] hover:shadow-[0_20px_40px_-10px_rgba(59,130,246,0.4)] active:scale-95"
-            >
-              Next Challenge
-            </button>
+            <button onClick={handleNext} style={{ width: '100%', backgroundColor: '#2563eb', color: 'white', padding: '20px', borderRadius: '24px', fontWeight: '900', fontSize: '20px', border: 'none', cursor: 'pointer' }}>Next Challenge</button>
           )}
         </div>
-        <p className="text-center text-slate-400 font-bold text-[10px] uppercase tracking-widest opacity-50">Precision Educational Engine v4.0</p>
       </div>
     </div>
   );
